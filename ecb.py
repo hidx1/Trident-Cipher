@@ -6,4 +6,8 @@ ECB Class
 class ECB:
     @staticmethod
     def execute(plain, key):
-        return SimpleCrypt.execute(key, plain)
+        result = []
+        for byte_64 in plain:
+            result.append(SimpleCrypt.execute(key, byte_64))
+        
+        return result

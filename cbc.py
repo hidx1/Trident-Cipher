@@ -1,9 +1,7 @@
 from helper import Helper as helper
 
-def cbc(string, key, mode):
+def cbc(stringBlocks, keyBlock, mode):
     iv = helper.convertStringToBinary64("abcdefgh")[0]
-    stringBlocks = helper.convertStringToBinary64(string)
-    keyBlock = helper.convertStringToBinary64(key)[0]
     resultBlocks = []
 
     if (mode == 0): #encrypt
@@ -20,7 +18,7 @@ def cbc(string, key, mode):
             else:
                 resultBlocks.append(helper.xor(helper.xor(stringBlocks[i], keyBlock), stringBlocks[i-1]))
     
-    return helper.convertBinary64ToString(resultBlocks)
+    return resultBlocks
 
 if __name__ == "__main__":
     cipherText = cbc("plaintext", "testkey", 0)

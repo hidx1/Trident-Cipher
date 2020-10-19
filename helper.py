@@ -38,8 +38,11 @@ class Helper:
         return result
     
     @staticmethod
-    def convertIntToBinary64(int):
-        return '{0:08b}'.format(int)
+    def convertIntToBinary64(int_value):
+        byte_list = '{0:08b}'.format(int_value)
+        for pad in range(7):
+            byte_list += '00000000'
+        return byte_list
     
     @staticmethod
     def xor(str1, str2):
