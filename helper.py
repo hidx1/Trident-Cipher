@@ -37,8 +37,21 @@ class Helper:
                     int_splitted_bin = int(splitted_bin, 2)
                     result += chr(int_splitted_bin)
         return result
+    
+    @staticmethod
+    def xor(str1, str2):
+        if len(str1) != len(str2):
+            raise "Error"
+        result = ""
+        for i in range(len(str1)):
+            if (str1[i] == str2[i]):
+                result += '0'
+            else:
+                result += '1'
+        return result
 
 
 if __name__ == "__main__":
-    bin_input = Helper.convertStringToBinary64(test_input)
-    print(Helper.convertBinary64ToString(bin_input))
+    # bin_input = Helper.convertStringToBinary64(test_input)
+    # print(Helper.convertBinary64ToString(bin_input))
+    print(Helper.xor('101', '100'))
