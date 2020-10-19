@@ -38,6 +38,10 @@ class Helper:
         return result
     
     @staticmethod
+    def convertIntToBinary64(int):
+        return '{0:08b}'.format(int)
+    
+    @staticmethod
     def xor(str1, str2):
         if len(str1) != len(str2):
             raise "Error"
