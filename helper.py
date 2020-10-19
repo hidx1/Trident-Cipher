@@ -1,5 +1,3 @@
-test_input = "abcdefghijklmnopq"
-
 class Helper:
     @staticmethod
     def convertStringToBinary64(input_string):
@@ -51,8 +49,69 @@ class Helper:
                 result += '1'
         return result
 
+    @staticmethod
+    def convertFileToBinary64(file_name):
+        file = open(file_name, "rb")
+
+        byte_list = []
+        byte = file.read(1)
+        while byte:
+            bin_byte = bin(ord(byte))[2:]
+            pad_bit_count = 8 - len(bin_byte)
+            for pad_bit in range(pad_bit_count):
+                bin_byte = '0' + bin_byte
+            byte_list.append(bin_byte)
+            byte = file.read(1)
+        
+        if not len(byte_list) % 8 == 0:
+            len_pad = 8 - (len(byte_list) % 8)
+        else:
+            len_pad = 0
+
+        for pad in range(len_pad):
+            bin_byte = '00000000'
+            byte_list.insert(0, bin_byte)
+
+        bytes_64 = []
+        for i in range(0, len(byte_list), 8):
+            result_64 = ''
+            for j in range(8):
+                result_64 += byte_list[i+j]
+            bytes_64.append(result_64)
+        
+        file.close()
+        
+        return bytes_64
+    
+    @staticmethod
+    def convertBinary64ToFile(input_binary, file_name):
+        padded_out = False
+
+        result = bytearray()
+
+        for binary in input_binary:
+            splitted_binary = [binary[i:i+8] for i in range(0, len(binary), 8)]
+            for splitted_bin in splitted_binary:
+                if splitted_bin != '00000000' or padded_out:
+                    padded_out = True
+                    splitted_bin = '0b' + splitted_bin
+                    int_splitted_bin = int(splitted_bin, 2)
+                    result.extend(int_splitted_bin.to_bytes(1, 'big'))
+        
+        result_bytes = bytes(result)
+
+        file = open(file_name, "wb")
+        file.write(result_bytes)
+        file.close()
 
 if __name__ == "__main__":
-    # bin_input = Helper.convertStringToBinary64(test_input)
+    test_input = "abcdefgh"
+    bin_input = Helper.convertStringToBinary64(test_input)
+    print(bin_input)
     # print(Helper.convertBinary64ToString(bin_input))
-    print(Helper.xor('101', '100'))
+    # print(Helper.xor('101', '100'))
+    # file_bytes = Helper.convertFileToBinary64('ecb.py')
+    # print(file_bytes)
+    # Helper.convertBinary64ToFile(file_bytes, 'aecb.py')
+
+    # print(file_bytes)
