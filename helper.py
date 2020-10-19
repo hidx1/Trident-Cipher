@@ -10,8 +10,13 @@ class Helper:
             for pad_bit in range(pad_bit_count):
                 bin_byte = '0' + bin_byte
             byte_list.append(bin_byte)
+        
+        if not len(byte_list) % 8 == 0:
+            len_pad = 8 - (len(byte_list) % 8)
+        else:
+            len_pad = 0
 
-        for pad in range(8 - (len(byte_list) % 8)):
+        for pad in range(len_pad):
             bin_byte = '00000000'
             byte_list.insert(0, bin_byte)
 
@@ -62,7 +67,12 @@ class Helper:
             byte_list.append(bin_byte)
             byte = file.read(1)
         
-        for pad in range(8 - (len(byte_list) % 8)):
+        if not len(byte_list) % 8 == 0:
+            len_pad = 8 - (len(byte_list) % 8)
+        else:
+            len_pad = 0
+
+        for pad in range(len_pad):
             bin_byte = '00000000'
             byte_list.insert(0, bin_byte)
 
@@ -99,12 +109,13 @@ class Helper:
         file.close()
 
 if __name__ == "__main__":
-    # test_input = "abcdefghijklmnopq"
-    # bin_input = Helper.convertStringToBinary64(test_input)
+    test_input = "abcdefgh"
+    bin_input = Helper.convertStringToBinary64(test_input)
+    print(bin_input)
     # print(Helper.convertBinary64ToString(bin_input))
     # print(Helper.xor('101', '100'))
-    file_bytes = Helper.convertFileToBinary64('ecb.py')
+    # file_bytes = Helper.convertFileToBinary64('ecb.py')
     # print(file_bytes)
-    Helper.convertBinary64ToFile(file_bytes, 'aecb.py')
+    # Helper.convertBinary64ToFile(file_bytes, 'aecb.py')
 
     # print(file_bytes)
