@@ -3,7 +3,7 @@ test_input = "abcdefghijklmnopq"
 class Helper:
     @staticmethod
     def convertStringToBinary64(input_string):
-        byte_array = bytearray(test_input, "utf8")
+        byte_array = bytearray(input_string, "utf8")
 
         byte_list = []
         for byte in byte_array:
@@ -12,10 +12,11 @@ class Helper:
             for pad_bit in range(pad_bit_count):
                 bin_byte = '0' + bin_byte
             byte_list.append(bin_byte)
-
-        for pad in range(8 - (len(byte_list) % 8)):
-            bin_byte = '00000000'
-            byte_list.insert(0, bin_byte)
+        
+        if (len(byte_list) % 8 != 0):
+            for pad in range(8 - (len(byte_list) % 8)):
+                bin_byte = '00000000'
+                byte_list.insert(0, bin_byte)
 
         bytes_64 = []
         for i in range(0, len(byte_list), 8):
