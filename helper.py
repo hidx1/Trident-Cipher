@@ -25,7 +25,20 @@ class Helper:
             bytes_64.append(result_64)
         
         return bytes_64
+    
+    @staticmethod
+    def convertBinary64ToString(input_binary):
+        result = ""
+        for binary in input_binary:
+            splitted_binary = [binary[i:i+8] for i in range(0, len(binary), 8)]
+            for splitted_bin in splitted_binary:
+                if splitted_bin != '00000000':
+                    splitted_bin = '0b' + splitted_bin
+                    int_splitted_bin = int(splitted_bin, 2)
+                    result += chr(int_splitted_bin)
+        return result
 
 
 if __name__ == "__main__":
-    print(Helper.convertStringToBinary64(test_input))
+    bin_input = Helper.convertStringToBinary64(test_input)
+    print(Helper.convertBinary64ToString(bin_input))
