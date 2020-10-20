@@ -3,6 +3,8 @@ from ecb import ECB
 from cbc import cbc
 from counter import counter
 
+import sys
+
 '''
 Block cipher
 '''
@@ -32,14 +34,16 @@ class BlockCipher:
         self.result = result
 
 if __name__ == "__main__":
-    input_name = input("Insert input: ")
-    is_file = input("Is this a file?(Y/N) ")
+    input_name = input("Insert file name: ")
     key = input("Insert key: ")
+    if len(key) != 8:
+        print("Key must be 8 characters")
+        sys.exit()
     mode = input("Insert mode: ")
     encrypt = input("Is this encrypt?(Y/N) ")
-    output_name = input("Insert output (can be anything if not file): ")
+    output_name = input("Insert output file name: ")
 
-    is_file = is_file == "Y"
+    is_file = "Y"
     encrypt = encrypt == "Y"
 
     bc = BlockCipher()

@@ -27,11 +27,13 @@ class Helper:
     
     @staticmethod
     def convertBinary64ToString(input_binary):
+        padded_out = False
         result = ""
         for binary in input_binary:
             splitted_binary = [binary[i:i+8] for i in range(0, len(binary), 8)]
             for splitted_bin in splitted_binary:
-                if splitted_bin != '00000000':
+                if splitted_bin != '00000000' or padded_out:
+                    padded_out = True
                     splitted_bin = '0b' + splitted_bin
                     int_splitted_bin = int(splitted_bin, 2)
                     result += chr(int_splitted_bin)
