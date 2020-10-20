@@ -3,12 +3,10 @@ import random as rand
 from helper import Helper as h
 
 def generateTest():
-    str_result = ''
-    for i in range(64):
-        str_result += str(i % 2)
-    print(str_result)
+    str_test = 'ABCDEFGH'
+    return h.convertStringToBinary64(str_test)[0]
 
-class SBoxA:
+class SBox:
     @staticmethod
     def generateRandom(seed, height = 16, randNum = 16):
         numbers = []
@@ -29,7 +27,21 @@ class SBoxA:
                 print(',')
             else:
                 print(']')            
-            
+
+    @staticmethod
+    def getRowColIdx(input_string):
+        row_idx = ''
+        col_idx = ''
+        for i in range(len(input_string)):
+            if i % 2 == 0:
+                row_idx += input_string[i]
+            else:
+                col_idx += input_string[i]
+        row_idx = h.convertBitToInt(row_idx)
+        col_idx = h.convertBitToInt(col_idx)
+
+        return row_idx, col_idx
+
     def __init__(self, idx = 1):
         if idx == 1:
             self.sboxKey = np.array([[10, 5, 12, 9, 14, 3, 0, 8, 13, 2, 15, 6, 11, 1, 4, 7],
@@ -66,10 +78,17 @@ class SBoxA:
                 [10, 12, 3, 4, 9, 11, 5, 8, 0, 6, 2, 1, 7, 14, 13, 15],
                 [1, 10, 15, 2, 4, 6, 11, 3, 5, 8, 13, 7, 0, 12, 14, 9]])
         
-    def execute64(input_string):
+    def execute64_32(self, input_string):
         split_num = 8
-        split_line = [input_string[i:i+split_num] for i in range]
-        print("Test")
+        split_lines = [input_string[i:i+split_num] for i in range(0, len(input_string), split_num)]
+        result = ''
+        for split_line in split_lines:
+            row_idx, col_idx = self.getRowColIdx(split_line)
+            result_int = self.sboxKey[row_idx][col_idx]
+            result += h.convertIntToBit(result_int, 4)
+        
+        return result
 
 if __name__ == "__main__":
-    generateTest()
+    sbox = SBox(2)
+    print(sbox.execute64_32(generateTest()))
