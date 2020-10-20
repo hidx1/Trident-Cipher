@@ -142,23 +142,37 @@ class Helper:
         return result
     
     @staticmethod
-    def additionModulo(input_string, b, m):
+    def additionModulo(input_bits, b, m):
         split_num = math.floor(math.log(m, 2))
 
         result = ''
-        split_str = [input_string[i:i+split_num] for i in range(0, len(input_string), split_num)]
+        split_bits = [input_bits[i:i+split_num] for i in range(0, len(input_bits), split_num)]
 
-        for input_char in input_string:
-            input_int = int(input_char)
+        for sub_bit in split_bits:
+            sub_bit_num = Helper.convertBitToInt(sub_bit)
+            sub_bit_num = (sub_bit_num + b) % m
+            result += Helper.convertIntToBit(sub_bit_num, split_num)
 
-        return (a + b) % m
+        return result
 
     @staticmethod
     def multiplicationModulo(input_string, b, m):
-        return (a * b) % m
+        split_num = math.floor(math.log(m, 2))
+
+        result = ''
+        split_bits = [input_bits[i:i+split_num] for i in range(0, len(input_bits), split_num)]
+
+        for sub_bit in split_bits:
+            sub_bit_num = Helper.convertBitToInt(sub_bit)
+            sub_bit_num = (sub_bit_num * b) % m
+            result += Helper.convertIntToBit(sub_bit_num, split_num)
+
+        return result
 
 if __name__ == "__main__":
-    print(Helper.convertIntToBit(12))
+    test_case = '1111101001010011'
+    print(Helper.additionModulo(test_case, 2, 16))
+    # print(Helper.convertIntToBit(12))
     # test_input = "abcdefgh"
     # bin_input = Helper.convertStringToBinary64(test_input)
     # print(bin_input)
