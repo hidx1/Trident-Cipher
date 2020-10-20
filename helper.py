@@ -1,3 +1,5 @@
+import math
+
 class Helper:
     @staticmethod
     def convertStringToBinary64(input_string):
@@ -126,6 +128,21 @@ class Helper:
         input_bit = '0b' + input_bit
         return int(input_bit, 2)
 
+    @staticmethod
+    def additionModulo(input_string, b, m):
+        split_num = math.floor(math.log(m, 2))
+
+        result = ''
+        split_str = [input_string[i:i+split_num] for i in range(0, len(input_string), split_num)]
+
+        for input_char in input_string:
+            input_int = int(input_char)
+
+        return (a + b) % m
+
+    @staticmethod
+    def multiplicationModulo(input_string, b, m):
+        return (a * b) % m
 if __name__ == "__main__":
     print(Helper.convertIntToBit(12))
     # test_input = "abcdefgh"

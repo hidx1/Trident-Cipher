@@ -1,3 +1,5 @@
+from sbox import SBox
+
 '''
 Key Generator Class
 Generates round key from external key
@@ -12,6 +14,5 @@ class KeyGenerator:
         left_key = self.key[0:32]
         right_key = self.key[32:64]
 
-        
-
-
+        for left_k in left_key:
+            
