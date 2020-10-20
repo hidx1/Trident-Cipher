@@ -1,5 +1,6 @@
 import math
 import numpy as np
+from copy import copy
 
 class Helper:
     @staticmethod
@@ -164,6 +165,17 @@ class Helper:
             result += Helper.convertIntToBit(sub_bit_num, split_num)
 
         return result
+    
+    @staticmethod
+    def shiftLeft(byte, n):
+        result = list(byte)
+        for i in range(n):
+            bit = result[0]
+            for j in range(7):
+                result[j] = result[j+1]
+            result[7] = bit
+        
+        return ''.join(result)
 
 if __name__ == "__main__":
     test_case = '1111101001010011'

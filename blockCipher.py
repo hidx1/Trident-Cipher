@@ -39,10 +39,11 @@ class BlockCipher:
         return resultBlocks
     
     def cbc(self, stringBlocks, keyBlock, encrypt):
-        ivString = Helper.randomNChar(8, Helper.totalAsciiCode(Helper.convertBinary64ToString([keyBlock])))
+        key = Helper.convertBinary64ToString([keyBlock])
+        ivString = Helper.randomNChar(8, Helper.totalAsciiCode(key))
         iv = Helper.convertStringToBinary64(ivString)[0] 
         resultBlocks = []
-        if encrypt:
+        if (encrypt):
             for i in range(len(stringBlocks)):
                 if (i == 0):
                     resultBlocks.append(Helper.xor(Helper.xor(iv, stringBlocks[i]), keyBlock))
@@ -58,7 +59,9 @@ class BlockCipher:
         return resultBlocks
     
     def counter(self, stringBlocks, keyBlock):
-        counter_num = Helper.totalAsciiCode(Helper.convertBinary64ToString([keyBlock]))
+        key = Helper.convertBinary64ToString([keyBlock])
+        counter_num = Helper.totalAsciiCode(key)
+        np.random.seed(counter_num)
         resultBlocks = []
 
         for i in range(len(stringBlocks)):
