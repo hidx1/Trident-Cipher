@@ -68,6 +68,7 @@ class SBoxA:
         
     def execute64(input_string):
         split_num = 8
+        split_line = [input_string[i:i+split_num] for i in range]
         print("Test")
 
 if __name__ == "__main__":
