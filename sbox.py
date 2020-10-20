@@ -78,7 +78,7 @@ class SBox:
                 [10, 12, 3, 4, 9, 11, 5, 8, 0, 6, 2, 1, 7, 14, 13, 15],
                 [1, 10, 15, 2, 4, 6, 11, 3, 5, 8, 13, 7, 0, 12, 14, 9]])
         
-    def execute64_32(self, input_string):
+    def execute48_24(self, input_string):
         split_num = 8
         split_lines = [input_string[i:i+split_num] for i in range(0, len(input_string), split_num)]
         result = ''
@@ -91,4 +91,4 @@ class SBox:
 
 if __name__ == "__main__":
     sbox = SBox(2)
-    print(sbox.execute64_32(generateTest()))
+    print(sbox.execute48_24(generateTest()))

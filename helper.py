@@ -142,9 +142,7 @@ class Helper:
         return result
     
     @staticmethod
-    def additionModulo(input_bits, b, m):
-        split_num = math.floor(math.log(m, 2))
-
+    def additionModulo(input_bits, b, m, split_num):
         result = ''
         split_bits = [input_bits[i:i+split_num] for i in range(0, len(input_bits), split_num)]
 
@@ -156,9 +154,7 @@ class Helper:
         return result
 
     @staticmethod
-    def multiplicationModulo(input_string, b, m):
-        split_num = math.floor(math.log(m, 2))
-
+    def multiplicationModulo(input_bits, b, m, split_num):
         result = ''
         split_bits = [input_bits[i:i+split_num] for i in range(0, len(input_bits), split_num)]
 
