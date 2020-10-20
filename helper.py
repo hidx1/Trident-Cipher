@@ -114,9 +114,9 @@ class Helper:
         file.close()
 
     @staticmethod
-    def convertIntToBit(input_int):
+    def convertIntToBit(input_int, bit_len):
         bin_byte = bin(input_int)[2:]
-        pad_bit_count = 8 - len(bin_byte)
+        pad_bit_count = bit_len - len(bin_byte)
         for pad_bit in range(pad_bit_count):
             bin_byte = '0' + bin_byte
         return bin_byte
