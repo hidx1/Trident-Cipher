@@ -1,9 +1,16 @@
 import numpy as np
 import random as rand
+from helper import Helper as h
 
-class SBox:
+def generateTest():
+    str_result = ''
+    for i in range(64):
+        str_result += str(i % 2)
+    print(str_result)
+
+class SBoxA:
     @staticmethod
-    def generateRandom(height, randNum, seed):
+    def generateRandom(seed, height = 16, randNum = 16):
         numbers = []
         for i in range(randNum):
             numbers.append(i)
@@ -23,7 +30,6 @@ class SBox:
             else:
                 print(']')            
             
-
     def __init__(self, idx = 1):
         if idx == 1:
             self.sboxKey = np.array([[10, 5, 12, 9, 14, 3, 0, 8, 13, 2, 15, 6, 11, 1, 4, 7],
@@ -60,8 +66,9 @@ class SBox:
                 [10, 12, 3, 4, 9, 11, 5, 8, 0, 6, 2, 1, 7, 14, 13, 15],
                 [1, 10, 15, 2, 4, 6, 11, 3, 5, 8, 13, 7, 0, 12, 14, 9]])
         
+    def execute64(input_string):
+        split_num = 8
+        print("Test")
 
 if __name__ == "__main__":
-    sbox = SBox(2)
-    print(sbox.sboxKey.shape)
-    print(sbox.sboxKey)
+    generateTest()

@@ -113,10 +113,24 @@ class Helper:
         file.write(result_bytes)
         file.close()
 
+    @staticmethod
+    def convertIntToBit(input_int):
+        bin_byte = bin(input_int)[2:]
+        pad_bit_count = 8 - len(bin_byte)
+        for pad_bit in range(pad_bit_count):
+            bin_byte = '0' + bin_byte
+        return bin_byte
+
+    @staticmethod
+    def convertBitToInt(input_bit):
+        input_bit = '0b' + input_bit
+        return int(input_bit, 2)
+
 if __name__ == "__main__":
-    test_input = "abcdefgh"
-    bin_input = Helper.convertStringToBinary64(test_input)
-    print(bin_input)
+    print(Helper.convertIntToBit(12))
+    # test_input = "abcdefgh"
+    # bin_input = Helper.convertStringToBinary64(test_input)
+    # print(bin_input)
     # print(Helper.convertBinary64ToString(bin_input))
     # print(Helper.xor('101', '100'))
     # file_bytes = Helper.convertFileToBinary64('ecb.py')
