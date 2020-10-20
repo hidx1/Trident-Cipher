@@ -1,4 +1,5 @@
 import math
+import numpy as np
 
 class Helper:
     @staticmethod
@@ -43,9 +44,7 @@ class Helper:
     
     @staticmethod
     def convertIntToBinary64(int_value):
-        byte_list = '{0:08b}'.format(int_value)
-        for pad in range(7):
-            byte_list += '00000000'
+        byte_list = '{0:064b}'.format(int_value)
         return byte_list
     
     @staticmethod
@@ -129,6 +128,20 @@ class Helper:
         return int(input_bit, 2)
 
     @staticmethod
+    def totalAsciiCode(string):
+        asciiList = [ord(c) for c in string]
+        return sum(asciiList)
+    
+    @staticmethod
+    def randomNChar(n, seed):
+        np.random.seed(seed)
+        asciiList = np.random.randint(low=33, high=127, size=n)
+        result = ""
+        for i in range(len(asciiList)):
+            result += chr(asciiList[i])
+        return result
+    
+    @staticmethod
     def additionModulo(input_string, b, m):
         split_num = math.floor(math.log(m, 2))
 
@@ -143,6 +156,7 @@ class Helper:
     @staticmethod
     def multiplicationModulo(input_string, b, m):
         return (a * b) % m
+
 if __name__ == "__main__":
     print(Helper.convertIntToBit(12))
     # test_input = "abcdefgh"
