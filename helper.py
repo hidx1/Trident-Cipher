@@ -1,3 +1,5 @@
+import numpy as np
+
 class Helper:
     @staticmethod
     def convertStringToBinary64(input_string):
@@ -41,9 +43,7 @@ class Helper:
     
     @staticmethod
     def convertIntToBinary64(int_value):
-        byte_list = '{0:08b}'.format(int_value)
-        for pad in range(7):
-            byte_list += '00000000'
+        byte_list = '{0:064b}'.format(int_value)
         return byte_list
     
     @staticmethod
@@ -125,6 +125,20 @@ class Helper:
     def convertBitToInt(input_bit):
         input_bit = '0b' + input_bit
         return int(input_bit, 2)
+
+    @staticmethod
+    def totalAsciiCode(string):
+        asciiList = [ord(c) for c in string]
+        return sum(asciiList)
+    
+    @staticmethod
+    def randomNChar(n, seed):
+        np.random.seed(seed)
+        asciiList = np.random.randint(low=33, high=127, size=n)
+        result = ""
+        for i in range(len(asciiList)):
+            result += chr(asciiList[i])
+        return result
 
 if __name__ == "__main__":
     print(Helper.convertIntToBit(12))
