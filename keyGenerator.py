@@ -20,8 +20,8 @@ class KeyGenerator:
         right_key = self.key[32:64]
 
         # Addition & Multiplication Modulo
-        left_key = h.additionModulo(left_key, 2, 16, 4)
-        right_key = h.multiplicationModulo(right_key, 2, 16, 4)
+        left_key = h.additionModulo(left_key, self.round_count, 16, 4)
+        right_key = h.multiplicationModulo(right_key, self.round_count, 16, 4)
 
         # Share input
         left_key = left_key + right_key[0:16]
