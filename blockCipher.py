@@ -1,4 +1,6 @@
 from helper import Helper
+from keyGenerator import KeyGenerator
+import numpy as np
 
 import sys
 
@@ -23,18 +25,18 @@ class BlockCipher:
     
     def execute(self, mode, encrypt=True):
         if mode == "ecb":
-            result = self.ecb(self.initial, self.key)
+            result = self.ecb(self.initial, self.key, encrypt)
         elif mode == "cbc":
             result = self.cbc(self.initial, self.key, encrypt)
         elif mode == "counter":
-            result = self.counter(self.initial, self.key)
+            result = self.counter(self.initial, self.key, encrypt)
 
         self.result = result
     
-    def ecb(self, stringBlocks, keyBlock):
+    def ecb(self, stringBlocks, keyBlock, encrypt):
         resultBlocks = []
         for block in stringBlocks:
-            resultBlocks.append(Helper.xor(block, keyBlock))
+            resultBlocks.append(self.feistel(block, keyBlock, encrypt))
         
         return resultBlocks
     
@@ -46,30 +48,79 @@ class BlockCipher:
         if (encrypt):
             for i in range(len(stringBlocks)):
                 if (i == 0):
-                    resultBlocks.append(Helper.xor(Helper.xor(iv, stringBlocks[i]), keyBlock))
+                    resultBlocks.append(self.feistel(Helper.xor(iv, stringBlocks[i]), keyBlock, encrypt))
                 else:
-                    resultBlocks.append(Helper.xor(Helper.xor(resultBlocks[i-1], stringBlocks[i]), keyBlock))
+                    resultBlocks.append(self.feistel(Helper.xor(resultBlocks[i-1], stringBlocks[i]), keyBlock, encrypt))
         else:
             for i in range(len(stringBlocks)):
                 if (i == 0):
-                    resultBlocks.append(Helper.xor(Helper.xor(stringBlocks[i], keyBlock), iv))
+                    resultBlocks.append(Helper.xor(self.feistel(stringBlocks[i], keyBlock, encrypt), iv))
                 else:
-                    resultBlocks.append(Helper.xor(Helper.xor(stringBlocks[i], keyBlock), stringBlocks[i-1]))
+                    resultBlocks.append(Helper.xor(self.feistel(stringBlocks[i], keyBlock, encrypt), stringBlocks[i-1]))
         
         return resultBlocks
     
-    def counter(self, stringBlocks, keyBlock):
+    def counter(self, stringBlocks, keyBlock, encrypt):
         key = Helper.convertBinary64ToString([keyBlock])
         counter_num = Helper.totalAsciiCode(key)
-        np.random.seed(counter_num)
         resultBlocks = []
 
         for i in range(len(stringBlocks)):
             counterBlock = Helper.convertIntToBinary64(counter_num)
-            resultBlocks.append(Helper.xor(Helper.xor(counterBlock, keyBlock), stringBlocks[i]))
+            resultBlocks.append(Helper.xor(self.feistel(counterBlock, keyBlock, encrypt), stringBlocks[i]))
+            # resultBlocks.append(Helper.xor(Helper.xor(counterBlock, keyBlock), stringBlocks[i]))
             counter_num += 1
         
         return resultBlocks
+    
+    def feistel(self, stringBlock, keyBlock, encrypt):
+        leftBlock = stringBlock[:32]
+        rightBlock = stringBlock[-32:]
+        keygen = KeyGenerator(keyBlock, 1, 2)
+        sKeyList = []
+        xKeyList = []
+
+        for i in range(8):
+            keygen.round()
+            sKeyList.append(keygen.subKey)
+            xKeyList.append(keygen.crossKey)
+        
+        for i in range(8):
+            if (encrypt):
+                sKey = sKeyList[i]
+                xKey = xKeyList[i]
+            else:
+                sKey = sKeyList[7-i]
+                xKey = xKeyList[7-i]
+
+            fFunc_res = self.fFunc(rightBlock, sKey, xKey)
+
+            leftBlock, rightBlock = rightBlock, Helper.xor(leftBlock, fFunc_res)
+        
+        leftBlock, rightBlock = rightBlock, leftBlock
+
+        return leftBlock+rightBlock
+    
+    def fFunc(self, block, sKey, xKey):
+        pBox = np.random.RandomState(seed=69).permutation(32)[:24]
+        reducedBlock = []
+
+        for idx in pBox:
+            reducedBlock.append(block[idx])
+        
+        for i in range(8):
+            reducedBlock[i*3+1] = sKey[i]
+        
+        for i in range(8, 16):
+            reducedBlock.append(sKey[i])
+        
+        reducedBlock = ''.join(reducedBlock)
+        xorResult = Helper.xor(reducedBlock, xKey)
+
+        if (xKey[0] == "1"):
+            xorResult = Helper.shiftLeft(xorResult, 1)
+        
+        return xorResult
 
 if __name__ == "__main__":
     input_name = input("Insert file name: ")
