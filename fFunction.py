@@ -17,6 +17,7 @@ def fFunc(block, sKey, xKey):
     reducedBlock = ''.join(reducedBlock)
     xorResult = helper.xor(reducedBlock, xKey)
     
+    
     if (xKey[0] == "1"):
         xorResult = helper.shiftLeft(xorResult, 1)
     
