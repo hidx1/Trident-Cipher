@@ -3,7 +3,7 @@ from keyGenerator import KeyGenerator
 import numpy as np
 
 def fFunc(block, sKey, xKey):
-    pBox = np.random.permutation(32)[:24]
+    pBox = np.random.RandomState(seed=69).permutation(32)[:24]
     reducedBlock = []
     for idx in pBox:
         reducedBlock.append(block[idx])
