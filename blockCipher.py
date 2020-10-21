@@ -67,6 +67,7 @@ class BlockCipher:
 
         for i in range(len(stringBlocks)):
             counterBlock = Helper.convertIntToBinary64(counter_num)
+            print(counterBlock)
             resultBlocks.append(Helper.xor(self.feistel(counterBlock, keyBlock, encrypt), stringBlocks[i]))
             # resultBlocks.append(Helper.xor(Helper.xor(counterBlock, keyBlock), stringBlocks[i]))
             counter_num += 1
@@ -117,8 +118,8 @@ class BlockCipher:
         reducedBlock = ''.join(reducedBlock)
         xorResult = Helper.xor(reducedBlock, xKey)
 
-        if (xKey[0] == "1"):
-            xorResult = Helper.shiftLeft(xorResult, 1)
+        numOfShift = int(xKey[:4], 2)
+        xorResult = Helper.shiftLeft(xorResult, numOfShift)
         
         return xorResult
 
