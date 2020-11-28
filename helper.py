@@ -1,10 +1,12 @@
 import math
+import base64
 import numpy as np
 from copy import copy
 
 class Helper:
     @staticmethod
     def convertStringToBinary64(input_string):
+        print(input_string)
         byte_array = bytearray(input_string, "utf8")
 
         byte_list = []
@@ -41,7 +43,23 @@ class Helper:
                     splitted_bin = '0b' + splitted_bin
                     int_splitted_bin = int(splitted_bin, 2)
                     result += chr(int_splitted_bin)
+        print(result)
         return result
+
+    @staticmethod
+    def convertBase64ToString(input_b64):
+        bin_input = input_b64.encode('utf-8')
+        bin_input = base64.b64decode(bin_input)
+        print('BIN INPUT:', bin_input)
+        return bin_input.decode('utf-8')
+    
+    @staticmethod
+    def convertStringToBase64(input_string):
+        str_input = input_string.encode('utf-8')
+        print('BIN OUTPUT:', str_input)
+        result = base64.b64encode(str_input)
+        return result.decode('utf-8')
+
     
     @staticmethod
     def convertIntToBinary64(int_value):
@@ -179,7 +197,7 @@ class Helper:
 
 if __name__ == "__main__":
     test_case = '1111101001010011'
-    print(Helper.additionModulo(test_case, 2, 16))
+    # print(Helper.additionModulo(test_case, 2, 16))
     # print(Helper.convertIntToBit(12))
     # test_input = "abcdefgh"
     # bin_input = Helper.convertStringToBinary64(test_input)
